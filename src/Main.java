@@ -1,34 +1,43 @@
 import java.util.Scanner;
 
 public class Main {
-    static int[] A;
-    static int N, K;
-    static int count = 0;
+    static int n, k;
+    static int[] a = new int[105];
+    static int[] x = new int[105]; // Lưu chỉ số các phần tử được chọn
+    static int ans = 0;
+
+    static void Try(int i) {
+        // Chỉ số tiếp theo phải lớn hơn chỉ số trước đó
+        for (int j = x[i - 1] + 1; j <= n - k + i; j++) {
+            // Nhánh cận: giá trị phần tử sau phải lớn hơn phần tử trước
+            if (a[j] > a[x[i - 1]]) {
+                x[i] = j;
+                if (i == k) {
+                    ans++;
+                } else {
+                    Try(i + 1);
+                }
+            }
+        }
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        K = sc.nextInt();
-        A = new int[N];
-        for (int i = 0; i < N; i++) A[i] = sc.nextInt();
+        if (!sc.hasNextInt()) return;
 
-        findSubsets(0, 0, new int[N], 0);
-        System.out.println(count);
-    }
+        n = sc.nextInt();
+        k = sc.nextInt();
 
-    static void findSubsets(int index, int sum, int[] subset, int size) {
-        if (sum == K) {
-            for (int i = 0; i < size; i++)
-                System.out.print(subset[i] + (i < size - 1 ? " " : ""));
-            System.out.println();
-            count++;
-            return;
+        for (int i = 1; i <= n; i++) {
+            a[i] = sc.nextInt();
         }
-        if (index == N || sum > K) return;
 
-        findSubsets(index + 1, sum, subset, size);
+        // a[0] = 0 đóng vai trò phần tử lính canh ban đầu (do các phần tử trong a[] > 0)
+        a[0] = 0;
+        x[0] = 0;
 
-        subset[size] = A[index];
-        findSubsets(index + 1, sum + A[index], subset, size + 1);
+        Try(1);
+
+        System.out.println(ans);
     }
 }

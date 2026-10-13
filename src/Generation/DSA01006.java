@@ -1,6 +1,10 @@
+package Generation;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class DSA01005 {
+public class DSA01006 {
     static boolean next_permuation(int[] a) {
         int i = a.length - 2;
         while (i >= 0 && a[i] >= a[i + 1]) {
@@ -27,12 +31,12 @@ public class DSA01005 {
         a[i] = a[j];
         a[j] = temp;
     }
-    static void printArray(int[] a) {
+    static String printArray(int[] a) {
         String s = "";
         for(int x : a){
             s += x;
         }
-        System.out.print(s + " ");
+        return s;
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -43,9 +47,16 @@ public class DSA01005 {
             for(int t = 0; t < n; t++){
                 arr[t] = t + 1;
             }
-            printArray(arr);
-            while (next_permuation(arr)){
-                printArray(arr);
+            List<String> list = new ArrayList<>();
+
+            list.add(printArray(arr));
+
+            while (next_permuation(arr)) {
+                list.add(printArray(arr));
+            }
+
+            for (int i = list.size() - 1; i >= 0; i--) {
+                System.out.print(list.get(i) + " ");
             }
             System.out.println();
         }

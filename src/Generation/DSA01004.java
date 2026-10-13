@@ -1,3 +1,5 @@
+package Generation;
+
 import java.util.Scanner;
 
 public class DSA01004 {
